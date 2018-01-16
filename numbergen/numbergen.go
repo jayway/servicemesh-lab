@@ -1,8 +1,10 @@
 package main
 
-import "time"
-import "fmt"
-import "math/rand"
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
 
 func main() {
 	randsrc := rand.NewSource(time.Now().UnixNano())
