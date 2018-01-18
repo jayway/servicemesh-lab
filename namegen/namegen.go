@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math/rand"
 	"time"
+	"net/http"
+	"log"
 )
 
 var (
@@ -21,8 +23,13 @@ var (
 )
 
 func main() {
+	http.HandleFunc("/", handler)
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
 	randsrc := rand.NewSource(time.Now().UnixNano())
 	rnd := rand.New(randsrc)
 	name := animals[rnd.Intn(len(animals))]
-	fmt.Print(name)
+	fmt.Fprintf(w, name)
 }

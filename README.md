@@ -1,7 +1,13 @@
-# Microservice for service mesh lab
-This repo contains microservices for the service mesh lab.
+# Service mesh on Kubernetes lab
+This repo contains files for deploying microservices to a Kubernetes cluster.
 
-## Installation
+There are two microservices, `numbergen` and `namegen`.
+
+## Compile and build docker images
 ```bash
-go get github.com/jayway/servicemesh-lab
+CGO_ENABLED=0 GOOS=linux go build -a -o ./namegen/app ./namegen/
+docker build -t <name>-scratch .
+
+CGO_ENABLED=0 GOOS=linux go build -a -o ./numbergen/app ./numbergen/
+docker build -t <name>-scratch .
 ```
