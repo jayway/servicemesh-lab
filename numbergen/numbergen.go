@@ -16,5 +16,5 @@ func main() {
 func handler(w http.ResponseWriter, r *http.Request) {
 	randsrc := rand.NewSource(time.Now().UnixNano())
 	rnd := rand.New(randsrc)
-	fmt.Fprintf(w, "%s", rnd.Intn(100))
+	fmt.Fprintf(w, "%d", rnd.Intn(100))
 }
