@@ -11,7 +11,7 @@ CGO_ENABLED=0 GOOS=linux go build -a -o ./numbergen/app ./numbergen/
 
 ## Build docker images
 
-![Microsoft Azure](https://github.com/jayway/servicemesh-lab/Microsoft_Azure.png) Using Azure? 
+![Microsoft Azure](/Microsoft_Azure.png) Using Azure? 
 > First, install a docker machine.
 > ```bash
 > DOCKER_RESOURCEGROUP_NAME="sandbox-<firstname>.<lastname>"
@@ -37,7 +37,7 @@ docker build -t numbergen-scratch ./numbergen/
 ```
 
 ## Test containers
-![Microsoft Azure](https://github.com/jayway/servicemesh-lab/Microsoft_Azure.png) Using Azure? 
+![Microsoft Azure](/Microsoft_Azure.png) Using Azure? 
 > Make sure you have an inboud rule for port 8080, since the Cloud Shell is not in the same vnet.
 >
 > To list existing rules: `$ az network nsg rule list --nsg-name servicemesh-dockerhost-firewall -o table`
