@@ -47,7 +47,7 @@ docker build -t combinedgen-scratch ./combinedgen/
 **Using Azure Cloud Shell?**
 > Make sure you have an inboud rule for port 8080, since the Cloud Shell is not in the same vnet.
 >
-> To list existing rules: `$ az network nsg rule list --nsg-name servicemesh-dockerhost-firewall -o table`
+> To list existing rules: `$ az network nsg rule list --nsg-name servicemesh-dockerhost-firewall --resource-group ${DOCKER_RESOURCEGROUP_NAME} --output table`
 >
 > To create a rule:
 > ```bash
@@ -55,7 +55,8 @@ docker build -t combinedgen-scratch ./combinedgen/
 >  --nsg-name servicemesh-dockerhost-firewall \
 >  --name Port8080 \
 >  --priority 500 \
->  --destination-port-ranges 8080
+>  --destination-port-ranges 8080 \
+>  --resource-group ${DOCKER_RESOURCEGROUP_NAME}
 > ```
 
 ```bash
