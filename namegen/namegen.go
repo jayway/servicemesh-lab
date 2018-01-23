@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
-	"time"
-	"net/http"
 	"log"
+	"math/rand"
+	"net/http"
+	"time"
 )
 
 var (
