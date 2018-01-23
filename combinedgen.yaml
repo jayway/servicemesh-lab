@@ -1,0 +1,29 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: combinedgen-service
+  labels:
+    app: combinedgen
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: combinedgen-service
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: combinedgen
+spec:
+  template:
+    metadata:
+      labels:
+        app: combinedgen
+    spec:
+      containers:
+      - name: combinedgen
+        image: christofferjerrebo/combinedgen
+        ports:
+        - name: http
+          containerPort: 8080

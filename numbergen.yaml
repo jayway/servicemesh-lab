@@ -1,0 +1,29 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: numbergen-service
+  labels:
+    app: numbergen
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: numbergen-service
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: numbergen
+spec:
+  template:
+    metadata:
+      labels:
+        app: numbergen
+    spec:
+      containers:
+      - name: numbergen
+        image: christofferjerrebo/numbergen
+        ports:
+        - name: http
+          containerPort: 8080

@@ -1,0 +1,29 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: namegen-service
+  labels:
+    app: namegen
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: namegen-service
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: namegen
+spec:
+  template:
+    metadata:
+      labels:
+        app: namegen
+    spec:
+      containers:
+      - name: namegen
+        image: christofferjerrebo/namegen
+        ports:
+        - name: http
+          containerPort: 8080
