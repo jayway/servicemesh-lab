@@ -13,7 +13,7 @@ var (
 		"aardvark",
 		"albatross",
 		"alligator",
-		"Alpaca",
+		"alpaca",
 		"ant",
 		"anteater",
 		"antelope",
