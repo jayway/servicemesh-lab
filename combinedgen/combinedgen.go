@@ -17,5 +17,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	// Call numbergen
 	number := "42"
 
-	fmt.Fprintf(w, "%s-%s", name, number)
+	// To trim whitespace from the strings,
+	// add "strings" to import and use string.TrimSpace("gopher\n")
+	fmt.Fprintf(w, "%s-%s\n", name, number)
 }

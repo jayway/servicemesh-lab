@@ -31,5 +31,5 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	randsrc := rand.NewSource(time.Now().UnixNano())
 	rnd := rand.New(randsrc)
 	name := animals[rnd.Intn(len(animals))]
-	fmt.Fprintf(w, name)
+	fmt.Fprintf(w, "%s\n", name)
 }
