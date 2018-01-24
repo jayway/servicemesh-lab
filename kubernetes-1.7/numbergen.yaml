@@ -1,30 +1,29 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: combinedgenservice
+  name: numbergenservice
   labels:
-    app: combinedgen
+    app: numbergen
 spec:
-  type: LoadBalancer
   ports:
-    - port: 80
-      targetPort: http
+    - port: 8080
+      targetPort: 8080
   selector:
-    app: combinedgenservice
+    app: numbergenservice
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: combinedgen
+  name: numbergen
 spec:
   template:
     metadata:
       labels:
-        app: combinedgen
+        app: numbergen
     spec:
       containers:
-      - name: combinedgen
-        image: christofferjerrebo/combinedgen
+      - name: numbergen
+        image: christofferjerrebo/numbergen-scratch
         ports:
         - name: http
           containerPort: 8080

@@ -1,29 +1,29 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: numbergenservice
+  name: namegenservice
   labels:
-    app: numbergen
+    app: namegen
 spec:
   ports:
     - port: 8080
       targetPort: 8080
   selector:
-    app: numbergenservice
+    app: namegenservice
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: numbergen
+  name: namegen
 spec:
   template:
     metadata:
       labels:
-        app: numbergen
+        app: namegen
     spec:
       containers:
-      - name: numbergen
-        image: christofferjerrebo/numbergen
+      - name: namegen
+        image: christofferjerrebo/namegen-scratch
         ports:
         - name: http
           containerPort: 8080

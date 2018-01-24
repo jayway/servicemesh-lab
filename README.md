@@ -34,7 +34,7 @@ docker-compose -f build-all.yml build
 # equivalent to:
 # docker build -t namegen-scratch ./namegen/
 # docker build -t numbergen-scratch ./numbergen/
-# docker build -t combinedgen-scratch ./combinedgen/
+# docker build -t combinedgen-alpine ./combinedgen/
 ```
 
 ## Test containers

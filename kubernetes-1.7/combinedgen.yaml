@@ -1,29 +1,30 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: namegenservice
+  name: combinedgenservice
   labels:
-    app: namegen
+    app: combinedgen
 spec:
+  type: LoadBalancer
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 80
+      targetPort: http
   selector:
-    app: namegenservice
+    app: combinedgenservice
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: namegen
+  name: combinedgen
 spec:
   template:
     metadata:
       labels:
-        app: namegen
+        app: combinedgen
     spec:
       containers:
-      - name: namegen
-        image: christofferjerrebo/namegen
+      - name: combinedgen
+        image: christofferjerrebo/combinedgen-alpine
         ports:
         - name: http
           containerPort: 8080

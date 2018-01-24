@@ -8,4 +8,4 @@ services:
     image: numbergen-scratch
   combinedgen:
     build: ./combinedgen
-    image: combinedgen-scratch
+    image: combinedgen-alpine
