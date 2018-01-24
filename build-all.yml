@@ -1,0 +1,11 @@
+version: '3'
+services:
+  namegen:
+    build: ./namegen
+    image: namegen-scratch
+  numbergen:
+    build: ./numbergen
+    image: numbergen-scratch
+  combinedgen:
+    build: ./combinedgen
+    image: combinedgen-scratch
