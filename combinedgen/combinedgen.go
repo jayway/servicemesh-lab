@@ -18,6 +18,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	number := "42"
 
 	// To trim whitespace from the strings,
-	// add "strings" to import and use string.TrimSpace("gopher\n")
+	// add "strings" to import and use strings.TrimSpace("gopher\n")
 	fmt.Fprintf(w, "%s-%s\n", name, number)
 }
