@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
-	"time"
-	"net/http"
 	"log"
+	"math/rand"
+	"net/http"
+	"time"
 )
 
 func main() {
@@ -16,5 +16,5 @@ func main() {
 func handler(w http.ResponseWriter, r *http.Request) {
 	randsrc := rand.NewSource(time.Now().UnixNano())
 	rnd := rand.New(randsrc)
-	fmt.Fprintf(w, "%d", rnd.Intn(100))
+	fmt.Fprintf(w, "%d\n", rnd.Intn(100))
 }
