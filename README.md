@@ -6,15 +6,6 @@ There are three microservices:
 * `namegen` which generates names of animals, for example `albatross`
 * `combinedgen` which generates combinations of the two services, for example `albatross-42`
 
-## Compile
-```bash
-CGO_ENABLED=0 GOOS=linux go build -a -o ./namegen/app ./namegen/
-CGO_ENABLED=0 GOOS=linux go build -a -o ./numbergen/app ./numbergen/
-CGO_ENABLED=0 GOOS=linux go build -a -o ./combinedgen/app ./combinedgen/
-```
-
-`CGO_ENABLED=0` will disable cgo-support, making a static binary more likely.
-
 ## Build docker images
 
 **Using Azure Cloud Shell?**
@@ -38,9 +29,12 @@ CGO_ENABLED=0 GOOS=linux go build -a -o ./combinedgen/app ./combinedgen/
 
 ### Build containers
 ```bash
-docker build -t namegen-scratch ./namegen/
-docker build -t numbergen-scratch ./numbergen/
-docker build -t combinedgen-scratch ./combinedgen/
+docker-compose -f build-all.yml build
+
+# equivalent to:
+# docker build -t namegen-scratch ./namegen/
+# docker build -t numbergen-scratch ./numbergen/
+# docker build -t combinedgen-scratch ./combinedgen/
 ```
 
 ## Test containers
