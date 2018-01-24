@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: namegen-service
+  name: namegenservice
   labels:
     app: namegen
 spec:
@@ -9,7 +9,7 @@ spec:
     - port: 8080
       targetPort: 8080
   selector:
-    app: namegen-service
+    app: namegenservice
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment

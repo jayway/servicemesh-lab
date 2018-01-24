@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: numbergen-service
+  name: numbergenservice
   labels:
     app: numbergen
 spec:
@@ -9,7 +9,7 @@ spec:
     - port: 8080
       targetPort: 8080
   selector:
-    app: numbergen-service
+    app: numbergenservice
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment

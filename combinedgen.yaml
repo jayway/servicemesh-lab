@@ -1,15 +1,16 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: combinedgen-service
+  name: combinedgenservice
   labels:
     app: combinedgen
 spec:
+  type: LoadBalancer
   ports:
     - port: 80
-      targetPort: 8080
+      targetPort: http
   selector:
-    app: combinedgen-service
+    app: combinedgenservice
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
