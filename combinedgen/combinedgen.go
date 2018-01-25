@@ -15,6 +15,7 @@ var numbergenurl string = ""
 func main() {
 	http.HandleFunc("/", handler)
 	setserviceurls()
+	log.Print("Listening...")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
@@ -49,7 +50,7 @@ func setserviceurls() {
 	namegenhost := os.Getenv("NAMEGENSERVICE_SERVICE_HOST")
 	log.Printf("namegen host: %s", namegenhost)
 	namegenport := os.Getenv("NAMEGENSERVICE_SERVICE_PORT")
-	log.Printf("namegen port: %s", namegenhost)
+	log.Printf("namegen port: %s", namegenport)
 	namegenurl = fmt.Sprintf("http://%s:%s", namegenhost, namegenport)
 	log.Printf("namegen service url: %s", namegenurl)
 

@@ -24,6 +24,7 @@ var (
 
 func main() {
 	http.HandleFunc("/", handler)
+	log.Print("Listening...")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
