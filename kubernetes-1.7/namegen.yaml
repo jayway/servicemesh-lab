@@ -19,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        app: namegen
+        app: namegenservice
     spec:
       containers:
       - name: namegen

@@ -19,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        app: numbergen
+        app: numbergenservice
     spec:
       containers:
       - name: numbergen
