@@ -15,11 +15,12 @@ var numbergenurl string = ""
 func main() {
 	http.HandleFunc("/", handler)
 	setserviceurls()
-	log.Print("Listening...")
+	log.Print("Listening.\n")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
+	log.Print("Handling request.\n")
 	nameResponse, err := http.Get(namegenurl)
 	if err != nil {
 		log.Fatal(err)
