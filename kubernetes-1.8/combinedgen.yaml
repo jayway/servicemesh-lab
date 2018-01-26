@@ -13,11 +13,14 @@ spec:
   selector:
     app: combinedgenservice
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: combinedgen
 spec:
+  selector:
+    matchLabels:
+      app: combinedgenservice
   template:
     metadata:
       labels:
