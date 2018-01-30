@@ -30,6 +30,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	if nameResponse.StatusCode != 200 {
+		log.Fatal(string(nameBuf))
+	}
 	name := string(nameBuf)
 
 	numberResponse, err := http.Get(numbergenUrl)
@@ -40,6 +43,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	numberBuf, err := ioutil.ReadAll(numberResponse.Body)
 	if err != nil {
 		log.Fatal(err)
+	}
+	if numberResponse.StatusCode != 200 {
+		log.Fatal(string(numberBuf))
 	}
 	number := string(numberBuf)
 
