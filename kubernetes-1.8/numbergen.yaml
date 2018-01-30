@@ -27,6 +27,12 @@ spec:
       containers:
       - name: numbergen
         image: christofferjerrebo/numbergen-scratch
+        env:
+        - name: GENERATE_ERRORS
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: GENERATE_NUMBERGEN_ERRORS
         ports:
         - name: http
           containerPort: 8080

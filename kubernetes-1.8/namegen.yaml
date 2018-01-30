@@ -27,6 +27,12 @@ spec:
       containers:
       - name: namegen
         image: christofferjerrebo/namegen-scratch
+        env:
+        - name: GENERATE_ERRORS
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: GENERATE_NAMEGEN_ERRORS
         ports:
         - name: http
           containerPort: 8080

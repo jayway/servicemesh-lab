@@ -1,0 +1,7 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: app-config
+data:
+  GENERATE_NAMEGEN_ERRORS: "false"
+  GENERATE_NUMBERGEN_ERRORS: "false"
