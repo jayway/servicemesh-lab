@@ -9,19 +9,19 @@ import (
 	"strings"
 )
 
-var namegenurl string = ""
-var numbergenurl string = ""
+var namegenUrl string = ""
+var numbergenUrl string = ""
 
 func main() {
 	http.HandleFunc("/", handler)
-	setserviceurls()
+	setServiceUrls()
 	log.Print("Listening.\n")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	log.Print("Handling request.\n")
-	nameResponse, err := http.Get(namegenurl)
+	nameResponse, err := http.Get(namegenUrl)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,7 +32,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	name := string(nameBuf)
 
-	numberResponse, err := http.Get(numbergenurl)
+	numberResponse, err := http.Get(numbergenUrl)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -47,18 +47,18 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "%s-%s", name, number)
 }
 
-func setserviceurls() {
-	namegenhost := os.Getenv("NAMEGENSERVICE_SERVICE_HOST")
-	log.Printf("namegen host: %s", namegenhost)
-	namegenport := os.Getenv("NAMEGENSERVICE_SERVICE_PORT")
-	log.Printf("namegen port: %s", namegenport)
-	namegenurl = fmt.Sprintf("http://%s:%s", namegenhost, namegenport)
-	log.Printf("namegen service url: %s", namegenurl)
+func setServiceUrls() {
+	namegenHost := os.Getenv("NAMEGENSERVICE_SERVICE_HOST")
+	log.Printf("namegen host: %s", namegenHost)
+	namegenPort := os.Getenv("NAMEGENSERVICE_SERVICE_PORT")
+	log.Printf("namegen port: %s", namegenPort)
+	namegenUrl = fmt.Sprintf("http://%s:%s", namegenHost, namegenPort)
+	log.Printf("namegen service url: %s", namegenUrl)
 
-	numbergenhost := os.Getenv("NUMBERGENSERVICE_SERVICE_HOST")
-	log.Printf("numbergen host: %s", numbergenhost)
-	numbergenport := os.Getenv("NUMBERGENSERVICE_SERVICE_PORT")
-	log.Printf("numbergen port: %s", numbergenport)
-	numbergenurl = fmt.Sprintf("http://%s:%s", numbergenhost, numbergenport)
-	log.Printf("numbergen service url: %s", numbergenurl)
+	numbergenHost := os.Getenv("NUMBERGENSERVICE_SERVICE_HOST")
+	log.Printf("numbergen host: %s", numbergenHost)
+	numbergenPort := os.Getenv("NUMBERGENSERVICE_SERVICE_PORT")
+	log.Printf("numbergen port: %s", numbergenPort)
+	numbergenUrl = fmt.Sprintf("http://%s:%s", numbergenHost, numbergenPort)
+	log.Printf("numbergen service url: %s", numbergenUrl)
 }
