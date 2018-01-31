@@ -12,36 +12,52 @@ data:
 
     namers:
     - kind: io.l5d.k8s
-      experimental: true
-      host: localhost
-      port: 8001
+      prefix: /io.l5d.k8s.http
+      transformers:
+        # The daemonset transformer replaces the address of the target app with
+        # the address of the http-incoming router of the Linkerd daemonset pod
+        # on the target app's node.
+      - kind: io.l5d.k8s.daemonset
+        namespace: linkerd
+        port: http-incoming
+        service: l5d
 
+    # Telemeters export metrics and tracing data about Linkerd, the services it
+    # connects to, and the requests it processes.
     telemetry:
     - kind: io.l5d.prometheus
     - kind: io.l5d.recentRequests
       sampleRate: 0.25
 
+    # Usage is used for anonymized usage reporting.  You can set the orgId to
+    # identify your organization or set `enabled: false` to disable entirely.
     usage:
-      orgId: linkerd-examples-daemonset
+      enabled: false
 
     routers:
-    - protocol: http
-      label: outgoing
-      dtab: |
-        /srv        => /#/io.l5d.k8s/default/http;
-        /host       => /srv;
-        /svc        => /host;
-        /host/world => /srv/world-v1;
-      interpreter:
-        kind: default
-        transformers:
-        - kind: io.l5d.k8s.daemonset
-          namespace: default
-          port: incoming
-          service: l5d
+    - label: http-outgoing
+      protocol: http
       servers:
       - port: 4140
         ip: 0.0.0.0
+      # This dtab looks up service names in k8s and falls back to DNS if they're
+      # not found (e.g. for external services). It accepts names of the form
+      # "service" and "service.namespace", defaulting the namespace to
+      # "default". For DNS lookups, it uses port 80 if unspecified. Note that
+      # dtab rules are read bottom to top. To see this in action, on the Linkerd
+      # administrative dashboard, click on the "dtab" tab, select "http-outgoing"
+      # from the dropdown, and enter a service name like "a.b". (Or click on the
+      # "requests" tab to see recent traffic through the system and how it was
+      # resolved.)
+      dtab: |
+        /ph  => /$/io.buoyant.rinet ;                     # /ph/80/google.com -> /$/io.buoyant.rinet/80/google.com
+        /svc => /ph/80 ;                                  # /svc/google.com -> /ph/80/google.com
+        /svc => /$/io.buoyant.porthostPfx/ph ;            # /svc/google.com:80 -> /ph/80/google.com
+        /k8s => /#/io.l5d.k8s.http ;                      # /k8s/default/http/foo -> /#/io.l5d.k8s.http/default/http/foo
+        /portNsSvc => /#/portNsSvcToK8s ;                 # /portNsSvc/http/default/foo -> /k8s/default/http/foo
+        /host => /portNsSvc/http/default ;                # /host/foo -> /portNsSvc/http/default/foo
+        /host => /portNsSvc/http ;                        # /host/default/foo -> /portNsSvc/http/default/foo
+        /svc => /$/io.buoyant.http.domainToPathPfx/host ; # /svc/foo.default -> /host/default/foo
       service:
         retries:
           backoff:
@@ -50,20 +66,21 @@ data:
         responseClassifier:
           kind: io.l5d.http.retryableRead5XX
 
-    - protocol: http
-      label: incoming
-      dtab: |
-        /srv        => /#/io.l5d.k8s/default/http;
-        /host       => /srv;
-        /svc        => /host;
-        /host/world => /srv/world-v1;
+    - label: http-incoming
+      protocol: http
+      servers:
+      - port: 4141
+        ip: 0.0.0.0
       interpreter:
         kind: default
         transformers:
         - kind: io.l5d.k8s.localnode
-      servers:
-      - port: 4141
-        ip: 0.0.0.0
+      dtab: |
+        /k8s => /#/io.l5d.k8s ;                           # /k8s/default/http/foo -> /#/io.l5d.k8s/default/http/foo
+        /portNsSvc => /#/portNsSvcToK8s ;                 # /portNsSvc/http/default/foo -> /k8s/default/http/foo
+        /host => /portNsSvc/http/default ;                # /host/foo -> /portNsSvc/http/default/foo
+        /host => /portNsSvc/http ;                        # /host/default/foo -> /portNsSvc/http/default/foo
+        /svc => /$/io.buoyant.http.domainToPathPfx/host ; # /svc/foo.default -> /host/default/foo
 ---
 apiVersion: extensions/v1beta1
 kind: DaemonSet
