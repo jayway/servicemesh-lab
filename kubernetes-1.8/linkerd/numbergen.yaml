@@ -1,0 +1,45 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: numbergenservice
+  labels:
+    app: numbergen
+spec:
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+  selector:
+    app: numbergenservice
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: numbergen
+spec:
+  selector:
+    matchLabels:
+      app: numbergenservice
+  template:
+    metadata:
+      labels:
+        app: numbergenservice
+    spec:
+      containers:
+      - name: numbergen
+        image: christofferjerrebo/numbergen-scratch
+        env:
+        - name: GENERATE_ERRORS
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: GENERATE_NUMBERGEN_ERRORS
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: http_proxy
+          value: $(NODE_NAME):4140
+        ports:
+        - name: http
+          containerPort: 8080

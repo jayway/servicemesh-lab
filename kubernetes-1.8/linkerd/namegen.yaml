@@ -1,0 +1,45 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: namegenservice
+  labels:
+    app: namegen
+spec:
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+  selector:
+    app: namegenservice
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: namegen
+spec:
+  selector:
+    matchLabels:
+      app: namegenservice
+  template:
+    metadata:
+      labels:
+        app: namegenservice
+    spec:
+      containers:
+      - name: namegen
+        image: christofferjerrebo/namegen-scratch
+        env:
+        - name: GENERATE_ERRORS
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: GENERATE_NAMEGEN_ERRORS
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: http_proxy
+          value: $(NODE_NAME):4140
+        ports:
+        - name: http
+          containerPort: 8080

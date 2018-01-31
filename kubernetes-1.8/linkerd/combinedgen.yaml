@@ -1,0 +1,41 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: combinedgenservice
+  labels:
+    app: combinedgen
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+  selector:
+    app: combinedgenservice
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: combinedgen
+spec:
+  selector:
+    matchLabels:
+      app: combinedgenservice
+  template:
+    metadata:
+      labels:
+        app: combinedgenservice
+    spec:
+      containers:
+      - name: combinedgen
+        image: christofferjerrebo/combinedgen-alpine
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: http_proxy
+          value: $(NODE_NAME):4140
+        ports:
+        - name: http
+          containerPort: 8080
