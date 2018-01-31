@@ -6,8 +6,9 @@ metadata:
     app: numbergen
 spec:
   ports:
-    - port: 8080
-      targetPort: 8080
+    - name: http
+      port: 8080
+      targetPort: http
   selector:
     app: numbergenservice
 ---
